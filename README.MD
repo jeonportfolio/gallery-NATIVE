@@ -6,4 +6,19 @@
 ## expo Image Picker 사용 
  -> npx expo install expo-image-picker
 
+
+## 코드 효율성을 위해 커스텀 훅 사용 
+-> use-gallery.js 
+
+## 3개의 사진이 가로로 배열 
+-> Dimension과 numCloumns 사용 
+
+
+## 이미지 삭제 기능 
+-> 각 이미지에 고유한 아이디를 부여함 
+-> 길게 누르면 삭제가 가능함 (deleteImage)
+
+## 이미지 추가 기능 
+-> ADD 버튼을 만들어서 추가가능 (허수취급)
+
  
