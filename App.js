@@ -1,11 +1,21 @@
 import { StatusBar } from 'expo-status-bar';
-import { Alert, Button, Dimensions, FlatList, Image, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Button, Dimensions, FlatList, Image, Modal, Platform, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useGallery } from './src/use-gallery';
+import MyDropDownPicker from './src/MyDropDownPicker';
+import TextInputModal from './src/TextInputModal';
 
 
 export default function App() {
   
-  const {images, imagesWidthAddButton, pickImage, deleteImage} = useGallery(); 
+  const { 
+      imagesWidthAddButton, 
+      pickImage, 
+      deleteImage,
+      selectedAlbum,
+      modalVisible,
+      openModal,
+      closeModal,
+  } = useGallery(); 
   
   const width = Dimensions.get('screen').width; // 3등분 해주기 위한 함수 
   const columnSize = width / 3 ;
@@ -15,6 +25,10 @@ export default function App() {
   };
 
   const onLongPressImage = (iamgeId) => deleteImage(iamgeId);
+  
+  const onPressAddAlbum = () => {
+      openModal();
+  };
 
   const renderItem = ({ item: {id, uri}, index}) => {
 
@@ -47,7 +61,15 @@ export default function App() {
   
   return (
     <SafeAreaView style={styles.container}>
-        <Button title="갤러리 열기" onPress={onPressOpenGallery}/>
+        {/* 앨범 추가 Dropdown */}
+        <MyDropDownPicker selectedAlbumTitle= {selectedAlbum.title} onPressAddAlbum={onPressAddAlbum}/>
+        
+        {/* 앨범 추가하는 TextInput */}
+        <TextInputModal
+          modalVisible={modalVisible}
+        />
+        
+        {/* 이미지 리스트 */}
         <FlatList
           data = {imagesWidthAddButton}
           renderItem={renderItem}
@@ -60,10 +82,8 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+
     backgroundColor: '#fff',
-    justifyContent:"center",
-    alignItems:"center",
     marginTop: Platform.OS === "android" ? 30 : 0,
    
   },
