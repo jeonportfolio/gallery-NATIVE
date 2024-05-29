@@ -15,6 +15,15 @@ export default function App() {
       modalVisible,
       openModal,
       closeModal,
+      albumTitle,
+      setAlbumTitle,
+      addAlbum,
+      resetAlbumTitle,
+      isDropdownOpen,
+      openDropDown,
+      closeDropDown,
+      albums,
+      selectAlbum
   } = useGallery(); 
   
   const width = Dimensions.get('screen').width; // 3등분 해주기 위한 함수 
@@ -28,6 +37,34 @@ export default function App() {
   
   const onPressAddAlbum = () => {
       openModal();
+  };
+
+  const onSubmitEditing = () => {
+    if(!albumTitle) return;
+   
+    //1. 앨범에 타이틀 추가 
+    addAlbum();
+    //2. 모달 닫기 & TextInput의 Value 초기화 
+    closeModal();
+    resetAlbumTitle();
+  }
+
+  const onPressBackdrop = () => {
+    closeModal();
+
+  }
+
+  const onPressHeader= () => {
+    if( isDropdownOpen){
+      closeDropDown();
+    } else {
+      openDropDown();
+    }
+  };
+
+  const onPressAlbum = (album) => {
+        selectAlbum(album);
+        closeDropDown();
   };
 
   const renderItem = ({ item: {id, uri}, index}) => {
@@ -62,11 +99,22 @@ export default function App() {
   return (
     <SafeAreaView style={styles.container}>
         {/* 앨범 추가 Dropdown */}
-        <MyDropDownPicker selectedAlbumTitle= {selectedAlbum.title} onPressAddAlbum={onPressAddAlbum}/>
+        <MyDropDownPicker 
+            onPressHeader={onPressHeader}
+            selectedAlbumTitle= {selectedAlbum.title} 
+            onPressAddAlbum={onPressAddAlbum}
+            isDropdownOpen={isDropdownOpen}
+            albums = {albums}
+            onPressAlbum = {onPressAlbum}
+        />
         
         {/* 앨범 추가하는 TextInput */}
         <TextInputModal
           modalVisible={modalVisible}
+          albumTitle={albumTitle}
+          setAlbumTitle={setAlbumTitle}
+          onSubmitEditing={onSubmitEditing}
+          onPressBackdrop={onPressBackdrop}
         />
         
         {/* 이미지 리스트 */}
@@ -74,6 +122,7 @@ export default function App() {
           data = {imagesWidthAddButton}
           renderItem={renderItem}
           numColumns={3}
+          style= {{ zIndex: -1}}
         />
         
     </SafeAreaView>

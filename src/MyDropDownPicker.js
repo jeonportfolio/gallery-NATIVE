@@ -1,19 +1,28 @@
 import { Text, TouchableOpacity, View } from "react-native"
-
+import { SimpleLineIcons } from '@expo/vector-icons';
 const headerHeight = 50;
 
 
 
-export default ({selectedAlbumTitle, onPressAddAlbum}) => {
+export default ({ isDropdownOpen, onPressHeader, selectedAlbumTitle, onPressAddAlbum , albums, onPressAlbum}) => {
     return (
-        <View style= {{ 
+       <View> 
+        <TouchableOpacity 
+            activeOpacity = {1}
+            onPress = {onPressHeader}
+            style= {{ 
              height: headerHeight,
              alignContent: "center",
              justifyContent:"center",
-             
+             flexDirection:"row",
         }}>
             <Text style={{ fontWeight: "bold" }}>{selectedAlbumTitle}</Text>
-
+            <SimpleLineIcons
+                name={isDropdownOpen ? "arrow-down" : "arrow-up"}
+                size={12}
+                color= "black"
+                style = {{ marginLeft : 8}}
+            />
             <TouchableOpacity style= {{
                 onPress : {onPressAddAlbum},
                 position: "absolute",
@@ -25,8 +34,36 @@ export default ({selectedAlbumTitle, onPressAddAlbum}) => {
             }}>
                     <Text>앨범 추가 </Text>
             </TouchableOpacity>
+            {isDropdownOpen && (
+                <View 
+                    style = {{ 
+                        position: "absolute",
+                        top: headerHeight,                        
+                        width: "100%" , 
+                        borderTopColor: "grey",
+                        borderTopWidth: 1,
+                        borderBottomColor: "grey",
+                        borderBottomWidth: 1,
+                    }}>
+                    {albums.map((albums, index) => (
+                        
+                        <TouchableOpacity 
+                            key={`album-${index}`}
+                            style= {{
+                                paddingVertical: 10,
+                                width: "100%",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                backgroundColor:"#fff"
+                            }}
+                            onPress={() => onPressAlbum(album)} > 
+                             <Text>{albums.title}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            )}
 
-
-        </View>
-    )
-}
+        </TouchableOpacity>
+    </View>
+    );
+};

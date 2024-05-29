@@ -1,16 +1,28 @@
-import { Modal, SafeAreaView, TextInput, View } from "react-native"
+import { KeyboardAvoidingView, Modal, Platform, Pressable, SafeAreaView, TextInput, View } from "react-native"
 
-export default ({modalVisible}) => {
+export default ({modalVisible, albumTitle, setAlbumTitle, onSubmitEditing, onPressBackdrop}) => {
     return(
        <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={modalVisible}>
-            <View style={{ backgroundColor: "lightgreen"}}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{ flex: 1}}
+            >
+                <Pressable onPress={onPressBackdrop} style={{flex:1 }}>
                     <SafeAreaView style= {{ position:"absolute", bottom: 0}}>   
-                        <TextInput style = {{width: "100%", backgroundColor:"lightblue"}}/>
+                        <TextInput 
+                            placeholder="앨범명을 입력해주세요"
+                            style = {{width: "100%", padding: 10, borderWidth: 0.5, borderColor: "lightgrey"}}
+                            value={albumTitle}
+                            onChangeText= {setAlbumTitle}
+                            onSubmitEditing={onSubmitEditing}
+                            autoFocus={true}
+                        />
                     </SafeAreaView>
-            </View>
+                </Pressable>
+            </KeyboardAvoidingView>
        </Modal> 
     ) 
 }

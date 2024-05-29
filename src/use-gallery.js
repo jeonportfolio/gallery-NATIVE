@@ -13,7 +13,9 @@ export const useGallery = () => {
     const [images, setImages] = useState([]);
     const [selectedAlbum, setSelectedAlbum] = useState(defaultAlbum);
     const [albums, setAlbums] = useState([defaultAlbum]);  
-    const [modalVisible, setModalVisible] = useState(false);  
+    const [modalVisible, setModalVisible] = useState(false); 
+    const [albumTitle, setAlbumTitle] = useState(''); 
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
    
     const pickImage = async () => {
       // No permissions request is necessary for launching the image library
@@ -58,7 +60,25 @@ export const useGallery = () => {
 
     const openModal = () => setModalVisible(true);
     const closeModal = () => setModalVisible(false);
+    const openDropDown = () => setIsDropdownOpen(true);
+    const closeDropDown = () => setIsDropdownOpen(false);
 
+    const addAlbum = () => {
+      const lastId = albums.length === 0 ? 0 : albums[albums.length - 1].id; //0일때는 -1이 되어버리기 때문에 
+      const newAlbum = {
+        id: lastId + 1,
+        title : albumTitle,
+      };
+      setAlbums([
+        ...albums,
+        newAlbum,
+      ])
+    }
+    const selectAlbum = (album) => {
+        setSelectedAlbum(album);
+    }
+
+    const resetAlbumTitle = () => setAlbumTitle('');
 
     const imagesWidthAddButton = [
       ...images,
@@ -76,5 +96,14 @@ export const useGallery = () => {
         modalVisible,
         openModal,
         closeModal,
+        albumTitle,
+        setAlbumTitle,
+        addAlbum,
+        resetAlbumTitle,
+        isDropdownOpen,
+        openDropDown,
+        closeDropDown,
+        albums,
+        selectAlbum
     }
  } 
