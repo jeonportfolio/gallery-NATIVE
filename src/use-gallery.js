@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { Alert } from 'react-native';
 
@@ -34,7 +34,8 @@ export const useGallery = () => {
           const newImage = {  
               id: lastId + 1,
               uri: result.assets[0].uri,
-          }
+              albumId: selectedAlbum.id,
+          };
           setImages([
             ...images,
             newImage
@@ -80,13 +81,19 @@ export const useGallery = () => {
 
     const resetAlbumTitle = () => setAlbumTitle('');
 
+
+    const filteredImages = images.filter((image) => image.albumId === selectedAlbum.albumId );
     const imagesWidthAddButton = [
-      ...images,
+      ...filteredImages,
       {
         id: -1,
         uri: "",
       }
     ]
+
+    useEffect(() => {
+      console.log('images', images);
+    }, [images])
     
     return {
         pickImage,

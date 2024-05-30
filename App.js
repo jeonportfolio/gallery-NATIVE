@@ -113,6 +113,7 @@ export default function App() {
           modalVisible={modalVisible}
           albumTitle={albumTitle}
           setAlbumTitle={setAlbumTitle}
+          selectedAlbum={selectedAlbum}
           onSubmitEditing={onSubmitEditing}
           onPressBackdrop={onPressBackdrop}
         />
