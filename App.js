@@ -23,7 +23,8 @@ export default function App() {
       openDropDown,
       closeDropDown,
       albums,
-      selectAlbum
+      selectAlbum,
+      deleteAlbum
   } = useGallery(); 
   
   const width = Dimensions.get('screen').width; // 3등분 해주기 위한 함수 
@@ -106,6 +107,7 @@ export default function App() {
             isDropdownOpen={isDropdownOpen}
             albums = {albums}
             onPressAlbum = {onPressAlbum}
+            onLongPressAlbim = {onLongPressAlbim}
         />
         
         {/* 앨범 추가하는 TextInput */}

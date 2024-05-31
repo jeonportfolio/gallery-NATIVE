@@ -54,9 +54,9 @@ export const useGallery = () => {
           onPress: () => {
             const newImages = images.filter((image) => image.id !== imageId);
             setImages(newImages);
-          }
-        }
-      ])
+          },
+        },
+      ]);
     }
 
     const openModal = () => setModalVisible(true);
@@ -77,6 +77,22 @@ export const useGallery = () => {
     }
     const selectAlbum = (album) => {
         setSelectedAlbum(album);
+    }
+
+    const deleteAlbum = (albumId) => {
+      Alert.alert("앨범을 삭제하시겠어요?", "", [
+        {
+          style: "cancel",
+          text: "아니요"
+        },
+        {
+          text: "네",
+          onPress: () => {
+            const newAlbums = albums.filter((album) => album.id !== albumId);
+            setAlbums(newAlbums);
+          },
+        },
+      ]);
     }
 
     const resetAlbumTitle = () => setAlbumTitle('');
@@ -111,6 +127,7 @@ export const useGallery = () => {
         openDropDown,
         closeDropDown,
         albums,
-        selectAlbum
+        selectAlbum,
+        deleteAlbum
     }
  } 

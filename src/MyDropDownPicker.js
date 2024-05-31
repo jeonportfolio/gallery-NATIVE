@@ -11,6 +11,7 @@ export default ({
      onPressAddAlbum ,
      albums,
      onPressAlbum,
+     onLongPressAlbum
        
     }) => {
     return (
@@ -66,7 +67,9 @@ export default ({
                                     alignItems: "center",
                                     backgroundColor:"#fff"
                                 }}
-                                onPress={() => onPressAlbum(album)} > 
+                                onPress={() => onPressAlbum(album)} 
+                                onLongPress = {() => onLongPressAlbum()}
+                                > 
                                  <Text style= {{fontWeight: isSelectedAlbum ? "bold" : undefined }}>{albums.title}</Text>
                             </TouchableOpacity>
                         );
