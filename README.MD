@@ -37,3 +37,5 @@
 
  ## 앨범 삭제 기능 
  -> deleteAlbum을 통해 alert의 알림을 하고 fliter과정을 거침
+
+ ## 이미지 확대 모달 

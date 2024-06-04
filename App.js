@@ -3,6 +3,7 @@ import { Alert, Button, Dimensions, FlatList, Image, Modal, Platform, SafeAreaVi
 import { useGallery } from './src/use-gallery';
 import MyDropDownPicker from './src/MyDropDownPicker';
 import TextInputModal from './src/TextInputModal';
+import BigImgModal from './src/BigImgModal';
 
 
 export default function App() {
@@ -68,6 +69,10 @@ export default function App() {
         closeDropDown();
   };
 
+  const onLongPressAlbum = (albumId) => {
+      deleteAlbum(albumId);
+  };
+
   const renderItem = ({ item: {id, uri}, index}) => {
 
     if(id ===- 1) {
@@ -107,7 +112,7 @@ export default function App() {
             isDropdownOpen={isDropdownOpen}
             albums = {albums}
             onPressAlbum = {onPressAlbum}
-            onLongPressAlbim = {onLongPressAlbim}
+            onLongPressAlbum = {onLongPressAlbim}
         />
         
         {/* 앨범 추가하는 TextInput */}
@@ -127,7 +132,11 @@ export default function App() {
           numColumns={3}
           style= {{ zIndex: -1}}
         />
-        
+
+        {/* 이미지를 크게 보는 모달  */}
+        <BigImgModal
+          modalVisible={bigImgModalVisible}
+        />        
     </SafeAreaView>
   );
 } 
