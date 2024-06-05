@@ -25,7 +25,10 @@ export default function App() {
       closeDropDown,
       albums,
       selectAlbum,
-      deleteAlbum
+      deleteAlbum,
+      selectImage,
+      bigImgModalVisible,
+      selectedImage
   } = useGallery(); 
   
   const width = Dimensions.get('screen').width; // 3등분 해주기 위한 함수 
@@ -73,8 +76,13 @@ export default function App() {
       deleteAlbum(albumId);
   };
 
-  const renderItem = ({ item: {id, uri}, index}) => {
+  const onPressImage = (image) => {
+    selectImage(image);  
+    openBigImageModal();
+  };
 
+  const renderItem = ({ item: image, index}) => {
+    const{ id, uri } = image;
     if(id ===- 1) {
       return ( 
         <TouchableOpacity
@@ -92,7 +100,7 @@ export default function App() {
     }
     
     return ( 
-      <TouchableOpacity onLongPress={() => onLongPressImage(id)}>
+      <TouchableOpacity onPress={() => onPressImage(image)} onLongPress={() => onLongPressImage(id)}>
             <Image 
               source={{uri}} 
               style= {{width: columnSize, height:columnSize} }
@@ -136,6 +144,8 @@ export default function App() {
         {/* 이미지를 크게 보는 모달  */}
         <BigImgModal
           modalVisible={bigImgModalVisible}
+          onPressBackdrop={onPressBigModalBackdrop}
+          selectedImage={selectedImage}
         />        
     </SafeAreaView>
   );

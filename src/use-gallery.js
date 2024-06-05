@@ -17,6 +17,8 @@ export const useGallery = () => {
     const [bigImgModalVisible, setbigImgModalVisible] = useState(false); 
     const [albumTitle, setAlbumTitle] = useState(''); 
     const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+    const [selectedImage, setSelectedImage] = useState(null); 
+
    
     const pickImage = async () => {
       // No permissions request is necessary for launching the image library
@@ -102,6 +104,10 @@ export const useGallery = () => {
       ]);
     }
 
+    const selectImage = () => {
+        setSelectedImage(image);
+    }
+
     const resetAlbumTitle = () => setAlbumTitle('');
 
 
@@ -135,6 +141,8 @@ export const useGallery = () => {
         closeDropDown,
         albums,
         selectAlbum,
-        deleteAlbum
+        deleteAlbum,
+        selectImage,
+        selectedImage
     }
  } 
