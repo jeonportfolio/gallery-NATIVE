@@ -108,10 +108,32 @@ export const useGallery = () => {
         setSelectedImage(image);
     }
 
+    const filteredImages = images.filter((image) => image.albumId === selectedAlbum.albumId );
+
+    const moveToPreviousImage = () => {
+        //filterImages를 사용해야한다 갤러리에 있는 것들을 이용해야 하기 때문에 
+        if (!selectedImage) return;
+        const selectedImageIndex = filteredImages.findIndex(image => image.id === selectedImage.id);
+        const previousImageidx = selectedImageIndex -1;
+        if(previousImageidx < 0) return;
+        const previousImage = filteredImages[previousImageIdx]
+        setSelectedImage(previousImage);
+    }  
+    const moveToNextImage = () => {
+        if(!selectedImage) return;
+        const selectedImageIndex = filteredImages.findIndex(image => image.id === selectedImage.id);
+        const nextImageidx = selectedImageIndex + 1;
+        if ((nextImageIdx > filteredImages.length -1) || nextImageIdx === -1) return;
+        const nextImage = filteredImages[nextImageIdx]
+        setSelectedImage(nextImage);
+    }
+    const showPreviousArrow = filteredImages.findIndex(image => image.id === selectedImage?.id) !== 0; //첫번째 사진 
+    const showNextArrow = filteredImages.findIndex(image => image.id === selectedImage?.id) !== filteredImages.length - 1; //첫번째 사진 
+    //selectedImage의 index가 null일수도 있기 때문에 ?를 넣어줘야 한다.
     const resetAlbumTitle = () => setAlbumTitle('');
 
 
-    const filteredImages = images.filter((image) => image.albumId === selectedAlbum.albumId );
+    
     const imagesWidthAddButton = [
       ...filteredImages,
       {
@@ -121,7 +143,10 @@ export const useGallery = () => {
     ]
 
     useEffect(() => {
-      console.log('images', images);
+      //console.log('images', images);
+      const arr = [1,2,3];
+      const index = arr.findIndex( item => item === 4);
+
     }, [images])
     
     return {
@@ -143,6 +168,10 @@ export const useGallery = () => {
         selectAlbum,
         deleteAlbum,
         selectImage,
-        selectedImage
+        selectedImage,
+        moveToPreviousImage,
+        moveToNextImage,
+        showPreviousArrow,
+        showNextArrow
     }
  } 

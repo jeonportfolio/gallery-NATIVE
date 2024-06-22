@@ -28,7 +28,9 @@ export default function App() {
       deleteAlbum,
       selectImage,
       bigImgModalVisible,
-      selectedImage
+      selectedImage,
+      showPreviousArrow,
+      showNextArrow
   } = useGallery(); 
   
   const width = Dimensions.get('screen').width; // 3등분 해주기 위한 함수 
@@ -81,6 +83,12 @@ export default function App() {
     openBigImageModal();
   };
 
+    const onPressLeftArrow = () => {
+      moveToPreviousImage();
+    }
+    const onPressRightArrow = () => {
+      moveToNextImage();
+    }
   const renderItem = ({ item: image, index}) => {
     const{ id, uri } = image;
     if(id ===- 1) {
@@ -146,6 +154,10 @@ export default function App() {
           modalVisible={bigImgModalVisible}
           onPressBackdrop={onPressBigModalBackdrop}
           selectedImage={selectedImage}
+          onPressLeftArrow={onPressLeftArrow}
+          onPressRightArrow={onPressRightArrow}
+          showPreviousArrow={showPreviousArrow}
+          showNextArrow={showNextArrow}
         />        
     </SafeAreaView>
   );
