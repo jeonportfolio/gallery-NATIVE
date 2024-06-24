@@ -46,3 +46,16 @@
  -> 각 arrow마다 기능 설정 (왼쪽 - 이전사진, 오른쪽 - 다음사진)
  -> filter처리된 기존의 사진들을 가지고 이용 각 사진의 index의 값을 활용함 
  -> 첫번째와 마지막 사진 예외처리 첫번째 = index가 0일때와 마지막일때 화살표를 없앤다
+
+ ## async storage 사용 
+
+->npx expo install @react-native-async-storage/async-storage 
+->이미지 문자열 변화 및 파싱 진행  
+->이미지와 앨범 각각 적용
+
+## 보상형 전면 광고 띄우기 (수익화)
+
+-> admob sdk45버젼에서만 사용 가능 npx expo upgrade 45로 다운그레이드 
+-> npx expo install expo-ads-admob 로 설치 
+-> 리워드 방식 사용 커스텀 훅을 별도로 만든다.
+-> 풀랫폼별 ID 관리 (android, ios) 테스트용 별도 설정 

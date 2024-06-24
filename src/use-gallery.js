@@ -2,10 +2,17 @@
 import { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const defaultAlbum  = {
   id:1,
   title: "기본",
+
+}
+
+const ASYNC_KEY = {
+  IMAGES: 'iamges',
+  ALBUMS: 'albums',
 
 }
 
@@ -19,6 +26,16 @@ export const useGallery = () => {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
     const [selectedImage, setSelectedImage] = useState(null); 
 
+
+    const _setImages = (newImages) => {
+      setImages(newImages);
+      AsyncStorage.setItem(ASYNC_KEY.IMAGES, JSON.stringify(newImages));
+    }
+
+    const _setAlbums = (newAlbums) => {
+      setAlbums(newAlbums);
+      AsyncStorage.setItem(ASYNC_KEY.ALBUMS, JSON.stringify(newAlbums));
+    }
    
     const pickImage = async () => {
       // No permissions request is necessary for launching the image library
@@ -39,7 +56,7 @@ export const useGallery = () => {
               uri: result.assets[0].uri,
               albumId: selectedAlbum.id,
           };
-          setImages([
+          _setImages([
             ...images,
             newImage
            ]);
@@ -56,7 +73,7 @@ export const useGallery = () => {
           text: "네",
           onPress: () => {
             const newImages = images.filter((image) => image.id !== imageId);
-            setImages(newImages);
+            _setImagesS(newImages);
           },
         },
       ]);
@@ -141,6 +158,29 @@ export const useGallery = () => {
         uri: "",
       }
     ]
+
+    const initValues = async() => {
+      const imagesFromStorage = await AsyncStorage.getItem(ASYNC_KEY.IMAGES);
+      //images
+      if (imagesFromStorage !== null) {
+        const parsed = JSON.parse(imagesFromStorage);
+       setImages(parsed);
+      }
+      //albums
+      const albumsFromStorage = await AsyncStorage.getItem(ASYNC_KEY.ALBUMS);
+      if (albumsFromStorage !== null) {
+        const parsed = JSON.parse(imagesFromStorage);
+
+        console.log('imagesFromStorage', albumsFromStorage);
+        setAlbums(parsed);
+      }
+    };
+
+
+     useEffect( () =>  {
+          initValues();
+     });
+
 
     useEffect(() => {
       //console.log('images', images);
